@@ -1,0 +1,67 @@
+---
+title: "Quiz 1"
+author: "Xinchen Pan"
+date: "December 10, 2015"
+output: pdf_document
+---
+
+#Load the data
+
+```{r tidy=FALSE}
+#using skipNul to avoid problem like line xxx appears to contain an embedded nul
+
+twitter <- readLines("en_US.twitter.txt",encoding = "UTF-8",skipNul=T)
+blogs <- readLines("en_US.blogs.txt",encoding = "UTF-8",skipNul=T)
+news <- readLines("en_US.news.txt",encoding = "UTF-8",skipNul=T)
+
+```
+
+The warning is caused by the empty line in the last line of news dataset. I can delete that line instead, since it does not affect analysis I will leave as it is.
+
+
+#1
+
+##The en_US.blogs.txt file is how many megabytes?
+```{r}
+#There might be an option to change from bytes to megabytes.
+file.size("en_US.blogs.txt")/1024/1024
+```
+
+#2
+
+##The en_US.twitter.txt has how many lines of text?
+```{r}
+length(twitter)
+```
+
+#3
+##What is the length of the longest line seen in any of the three en_US data sets?
+```{r}
+library(stringr)
+max(str_length(twitter))
+max(str_length(blogs))
+max(str_length(news))
+```
+
+#4
+##In the en_US twitter data set, if you divide the number of lines where the word "love" (all lowercase) occurs by the number of lines the word "hate" (all lowercase) occurs, about what do you get?
+```{r}
+love <- length(grep('love', twitter))
+hate <- length(grep('hate', twitter))
+love / hate
+```
+
+
+#5
+##The one tweet in the en_US twitter data set that matches the word "biostats" says what?
+
+```{r}
+twitter[grep('biostats', twitter)]
+```
+
+#6
+##How many tweets have the exact characters "A computer once beat me at chess, but it was no match for me at kickboxing". (I.e. the line matches those characters exactly.)
+```{r}
+grep("A computer once beat me at chess, but it was no match for me at kickboxing", twitter)
+```
+
